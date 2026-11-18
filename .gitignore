@@ -1,0 +1,25 @@
+.env
+*.db
+*.db-wal
+*.db-shm
+/bin/
+/ui-screenshots/
+# make verify-pg 의 실패·건너뜀 시험 목록(B37)
+/build/
+/dist/
+node_modules/
+web/dist/*
+!web/dist/.gitkeep
+design/*/project/canvas.json
+
+# 루트에서 go build 를 돌리면 나오는 산출물(cmd·internal/tools 의 각 명령). 빌드 산출물은 bin/ 에만 둔다(make build).
+/server
+/erp-mcp
+/erp-admin
+/eval
+/monthclosefixture
+/nudgefixture
+/importfixture
+/dialectstat
+/pgbaseline
+.vite/

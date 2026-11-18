@@ -1,0 +1,20 @@
+{
+ "internal/dbtest/dbtest.go": {
+  "LastInsertId": 1
+ },
+ "internal/repository/ledger_repo.go": {
+  "date(": 1
+ },
+ "internal/repository/month_close_repo.go": {
+  "date(": 2
+ },
+ "internal/repository/rating_repo.go": {
+  "date(": 2
+ },
+ "internal/tools/monthclosefixture/main.go": {
+  "LastInsertId": 1
+ },
+ "internal/tools/nudgefixture/main.go": {
+  "strftime(": 1
+ }
+}

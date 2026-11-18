@@ -1,0 +1,2074 @@
+{
+  "DELETE /api/approvals/delegations/{id} [approval:delegate]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "DELETE /api/authority-rules/{id} [authority:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "DELETE /api/llm/policies/{id} [llm:policy_manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "DELETE /api/personal-lines/{id} [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "DELETE /api/quotes/{id} [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "DELETE /api/tokens/{id} [token:manage]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "DELETE /api/units/{id}/receivers/{userId} [receipt:handle]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/admin/auth/providers [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/admin/auth/providers/{id}/test-result [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/admin/auth/users [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/admin/forms [form:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/admin/forms/versions/{id} [form:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/admin/forms/versions/{id}/number-preview [form:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/admin/settings/llm-image [llm:policy_manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/admin/users [user:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/approval-docs [draft:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/approval-docs/attachments/{id} [draft:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/approval-docs/{id} [draft:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/approvals/delegations [approval:delegate]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/approvals/delegations/candidates [approval:delegate]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/approvals/inbox [approval:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/approvals/line-preview [approval:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/approvals/orphaned [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/approvals/pending [approval:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/approvals/{id}/acting [approval:decide]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/approvals/{id}/history [approval:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/approvals/{id}/steps/{seq}/reassign-candidates [approval:reassign]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/audit-logs [audit:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/audit-logs/export [audit:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/auth/callback [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/auth/config [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/auth/login [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/auth/saml/login [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/auth/saml/metadata [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/authority-clause [draft:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/authority-policies [authority:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/authority-rules [authority:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/budgets [budget:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/budgets/check [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/budgets/export [budget:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/budgets/revisions [budget:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/docs/search [draft:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/documents/capabilities [document:verify]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": true
+  },
+  "GET /api/documents/pending-confirm [document:confirm]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/documents/verdicts [document:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/documents/verdicts/{id} [document:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/eval/runs [eval:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/account-rules [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/accounts [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/bank-accounts [fund:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/cards [card:read_all]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/cards/confirm [card:confirm]": {
+    "admin": false,
+    "auditor": false,
+    "finance": false,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/finance/cards/confirm/{id} [card:confirm]": {
+    "admin": false,
+    "auditor": false,
+    "finance": false,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/finance/cards/explain-accounts [card:explain]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/finance/cards/mine [card:explain]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/finance/cards/mine/{id} [card:explain]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/finance/cards/overview [card:read_all]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/cards/txns [card:read_all]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/cards/txns/{id} [card:read_all]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/fund-daily [fund:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/fund-daily/export [fund:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/journal-queue [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/journals [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/journals/{no} [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/ledger [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/ledger/export [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/payables [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/payables/{vendorId} [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/payables/{vendorId}/candidates [payment:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/payment-calendar [payment:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/payments [payment:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/payments/{no} [payment:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/trial-balance [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/trial-balance/export [ledger:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/vat-purchase [vat:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/vat-purchase/export/cards [vat:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/vat-purchase/export/unreceived [vat:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/finance/vat-purchase/export/vendors [vat:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/forms [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/forms/{code} [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inbox/counts [inbox:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inbox/export [inbox:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inbox/{box} [inbox:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inventory/month-stock [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inventory/month-stock/export [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inventory/month-stock/export-valued [inventory:valuation_read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/inventory/months [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inventory/months/{month}/precheck [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/inventory/months/{month}/status [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/items [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/items/{id}/stock [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/llm/policies [llm:policy_manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/llm/quotas [llm:policy_manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/llm/usage [llm:usage_read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/llm/usage/limits [llm:usage_read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/llm/usage/today [authenticated]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/mcp/usage [usage:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/me [setup]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/notifications [notification:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/notifications/unread-count [notification:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/nudges [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/org/consistency [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/org/events [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/org/people [org:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/org/people/export [org:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/org/people/{id} [org:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/org/people/{id}/history [org:history]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/org/ranks [org:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/org/tree [org:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/org/units/{id} [org:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/org/units/{id}/members [org:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/personal-lines [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/personal-lines/{id} [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/policies/related [policy:search]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/policies/search [policy:search]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-orders [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-orders/export [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-orders/{id} [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-requests [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-requests/export [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-requests/my-summary [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-requests/{id} [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-requests/{id}/po [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/purchase-requests/{id}/quotes [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/receipt-history [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/receipts [inbox:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/receipts/export [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/receipts/{id} [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/reports/approvals [report:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/reports/approvals/export [report:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/reports/options [report:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/reports/purchase [report:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/reports/purchase/export [report:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/reports/vendors [report:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/reports/vendors/export [report:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "GET /api/retention/candidates [retention:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/retention/count [retention:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/retention/holds [retention:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/stock-counts [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/stock-counts/{id} [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/stock-issues [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/stock-issues/departments [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/stock-ledger [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/stock-ledger/export [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/stock-ledger/export-valued [inventory:valuation_read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/stock-transfers [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/stock/below-safety [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/stock/expiring [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/stock/export [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/tokens [token:manage]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/units/{id}/receivers [receipt:handle]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/vendors [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /api/vendors/rating [vendor:rating_read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/vendors/{id}/rating [vendor:rating_read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "GET /api/warehouses [inventory:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /dev-idp/.well-known/openid-configuration [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /dev-idp/authorize [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /dev-idp/jwks [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /healthz [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "GET /{path...} [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "PATCH /api/admin/users/{id} [user:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/auth/providers/{id}/test [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/forms/versions/{id}/publish [form:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/forms/{code}/active [form:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/forms/{code}/versions [form:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/users/{id}/auth/start [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/users/{id}/auth/totp-reset [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/users/{id}/auth/unlink [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/admin/users/{id}/auth/unlock [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/approval-docs [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approval-docs/attachments [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approval-docs/line-preview [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approval-docs/{id}/cancel-submit [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approval-docs/{id}/print [draft:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approval-docs/{id}/submit [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approval-docs/{id}/withdraw [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approvals/batch [approval:agree]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approvals/delegations [approval:delegate]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": false
+  },
+  "POST /api/approvals/{id}/decision [approval:agree]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approvals/{id}/nudge [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/approvals/{id}/steps/{seq}/reassign [approval:reassign]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/audit-logs/anchor [audit:verify]": {
+    "admin": false,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/audit-logs/anchor/restart [audit:verify]": {
+    "admin": false,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/audit-logs/verify [audit:verify]": {
+    "admin": false,
+    "auditor": true,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/auth/login/emergency [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/login/password [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/login/totp [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/logout [setup]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/password/change [setup]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/password/forgot [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/password/reset [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/saml/acs [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/totp/confirm [setup]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/totp/disable [setup]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/auth/totp/enroll [setup]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/authority-rules [authority:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/documents/verdicts/{id}/confirm [document:confirm]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/documents/verify [document:verify]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": true
+  },
+  "POST /api/finance/accounts [account:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/accounts/{code}/active [account:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/bank-accounts [fund:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/bank-accounts/{id}/active [fund:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/bank-accounts/{id}/reveal [mask:bypass]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards [card:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards/confirm [card:confirm]": {
+    "admin": false,
+    "auditor": false,
+    "finance": false,
+    "manager": true,
+    "staff": false
+  },
+  "POST /api/finance/cards/confirm/{id}/return [card:confirm]": {
+    "admin": false,
+    "auditor": false,
+    "finance": false,
+    "manager": true,
+    "staff": false
+  },
+  "POST /api/finance/cards/import/confirm [card:import]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards/import/preview [card:import]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards/mine/{id}/explain [card:explain]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/finance/cards/mine/{id}/withdraw [card:explain]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/finance/cards/txns/{id}/reassign [card:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards/txns/{id}/refund-done [card:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards/txns/{id}/refund-request [card:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards/{id}/active [card:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/cards/{id}/holder [card:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/deposits [fund:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journal-queue/{id}/manual [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journal-queue/{id}/retry [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journal-queue/{id}/skip [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journals [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journals/request-batch [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journals/{no}/cancel [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journals/{no}/request [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/journals/{no}/reverse [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/payments [payment:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/payments/{no}/cancel [payment:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/payments/{no}/request [payment:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/payments/{no}/reveal-payee [mask:bypass]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/payments/{no}/reverse [payment:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/finance/payments/{no}/settle [payment:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/inbox/read/{id} [inbox:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/inventory/months/{month}/close [inventory:close]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/inventory/months/{month}/release-request [inventory:close]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/items [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/llm/policies [llm:policy_manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/notifications/read-all [notification:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/notifications/{id}/read [notification:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/org/events [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/org/events/preview [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/org/events/{id}/cancel [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/org/events/{id}/correct [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/org/import/apply [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/org/import/errors.csv [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/org/import/plan.csv [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/org/import/preview [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/personal-lines [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/purchase-requests [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/purchase-requests/{id}/cancel-submit [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/purchase-requests/{id}/po/print [purchase:read]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/purchase-requests/{id}/quotes [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/purchase-requests/{id}/submit [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/purchase-requests/{id}/withdraw [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/receipts [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/receipts/{id}/accept [receipt:handle]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/receipts/{id}/assign [receipt:handle]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/receipts/{id}/complete [receipt:handle]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/receipts/{id}/return [receipt:handle]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/retention/dispose [retention:dispose]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/retention/hold [retention:dispose]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/retention/hold/{id}/clear [retention:dispose]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-counts [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-counts/{id}/discard [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-counts/{id}/refresh [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-counts/{id}/submit [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-issues [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-issues/propose [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-transfers [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/stock-transfers/preview [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/tokens [token:manage]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/units/{id}/receivers [receipt:handle]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /api/vendors [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/warehouses [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /api/warehouses/{id}/active [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "POST /dev-idp/token [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "POST /mcp [public]": {
+    "admin": true,
+    "auditor": true,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "PUT /api/admin/auth/policy [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/admin/auth/providers/{id} [auth:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/admin/forms/versions/{id} [form:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/admin/settings/llm-image [llm:policy_manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/approval-docs/{id} [draft:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "PUT /api/authority-rules/{id} [authority:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/budgets [budget:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/finance/account-rules/{key} [account:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/finance/accounts/{code} [account:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/finance/bank-accounts/{id} [fund:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/finance/cards/{id} [card:manage]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/finance/journals/{no} [ledger:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/finance/payments/{no} [payment:write]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/finance/vendors/{id}/payment-days [account:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/llm/quotas [llm:policy_manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/org/ranks [org:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": false,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/purchase-requests/{id} [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "PUT /api/purchase-requests/{id}/quote-selection [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "PUT /api/quotes/{id} [purchase:create]": {
+    "admin": false,
+    "auditor": false,
+    "finance": true,
+    "manager": true,
+    "staff": true
+  },
+  "PUT /api/stock-counts/{id} [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  },
+  "PUT /api/warehouses/{id} [inventory:manage]": {
+    "admin": true,
+    "auditor": false,
+    "finance": true,
+    "manager": false,
+    "staff": false
+  }
+}

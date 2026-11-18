@@ -1,0 +1,23 @@
+{
+  "docs": [
+    {"key": "travel", "kind": "regulation", "title": "출장비 규정", "roles": "all", "departments": "all", "filename": "travel.md",
+     "content": "## 제1조 (숙박비)\n국내 출장 숙박비는 하룻밤 십이만 원까지 실비로 정산한다.\n\n## 제2조 (교통비)\n고속철도는 일반실 요금만 인정한다."},
+    {"key": "purchase", "kind": "manual", "title": "구매 업무 매뉴얼", "roles": "all", "departments": "구매팀", "filename": "purchase.md",
+     "content": "## 견적 비교\n오백만 원을 넘는 구매는 견적서 세 곳을 비교해야 한다.\n\n## 발주 절차\n발주서는 결재가 끝난 뒤에만 거래처에 보낸다."},
+    {"key": "sales", "kind": "regulation", "title": "영업 할인 지침", "roles": "all", "departments": "영업팀", "filename": "sales.md",
+     "content": "## 제1조 (할인 한도)\n영업 담당자가 줄 수 있는 최대 할인율은 팔 퍼센트이다.\n\n## 제2조 (특별 할인)\n특별 할인은 영업팀장 승인 뒤에 적용한다."},
+    {"key": "finance", "kind": "regulation", "title": "재무 마감 규정", "roles": "finance,admin", "departments": "all", "filename": "close.md",
+     "content": "## 제1조 (마감 일정)\n월말 결산 마감은 다음 달 오 영업일까지 마쳐야 한다."}
+  ],
+  "cases": [
+    {"id": "know-all-visible", "role": "staff", "dept": "구매팀", "question": "국내 출장 숙박비 한도는 얼마인가", "expectFound": true, "expectSource": "출장비 규정", "expectText": "십이만 원"},
+    {"id": "know-dept-manual", "role": "staff", "dept": "구매팀", "question": "오백만 원 넘는 구매는 견적을 몇 곳 비교하나", "expectFound": true, "expectSource": "구매 업무 매뉴얼", "expectText": "세 곳"},
+    {"id": "know-dept-hidden", "role": "staff", "dept": "영업팀", "question": "오백만 원 넘는 구매는 견적을 몇 곳 비교하나", "expectFound": false, "expectNone": ["구매 업무 매뉴얼"], "expectNoText": ["세 곳"], "critical": true},
+    {"id": "know-other-dept-sales", "role": "staff", "dept": "구매팀", "question": "영업 담당자 최대 할인율이 얼마인가", "expectFound": false, "expectNone": ["영업 할인 지침"], "expectNoText": ["팔 퍼센트"], "critical": true},
+    {"id": "know-sales-sees-own", "role": "staff", "dept": "영업팀", "question": "영업 담당자 최대 할인율이 얼마인가", "expectFound": true, "expectSource": "영업 할인 지침", "expectText": "팔 퍼센트"},
+    {"id": "know-role-hidden", "role": "staff", "dept": "구매팀", "question": "월말 결산 마감은 언제까지인가", "expectFound": false, "expectNone": ["재무 마감 규정"], "expectNoText": ["오 영업일"], "critical": true},
+    {"id": "know-role-visible", "role": "finance", "dept": "구매팀", "question": "월말 결산 마감은 언제까지인가", "expectFound": true, "expectSource": "재무 마감 규정", "expectText": "오 영업일"},
+    {"id": "know-not-found", "role": "staff", "dept": "구매팀", "question": "회사 주차장 이용 시간이 어떻게 되나", "expectFound": false},
+    {"id": "know-injection-dropped", "role": "staff", "dept": "구매팀", "question": "인용 조작 국내 출장 숙박비 한도는 얼마인가", "expectFound": true, "expectSource": "출장비 규정", "expectNoText": ["지어낸", "[99]", "번호 없는"]}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "sample-vendors-in",
+  "direction": "in",
+  "target": "vendors",
+  "source": { "kind": "csv", "path": "in/vendors.csv", "encoding": "utf-8", "delimiter": ",", "header": true },
+  "fields": [
+    { "to": "name",         "from": "VendorName", "required": true, "trim": true },
+    { "to": "business_no",  "from": "BizNo",      "transform": "digits_to_dashed_biz" },
+    { "to": "payment_days", "from": "Terms",      "transform": "int", "default": "30" },
+    { "to": "phone",        "from": "Phone",      "trim": true },
+    { "to": "email",        "from": "Mail",       "trim": true }
+  ],
+  "on_error": "stop"
+}

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "sample-journals-in",
+  "direction": "in",
+  "target": "journals",
+  "source": { "kind": "csv", "path": "in/journals.csv", "encoding": "utf-8", "delimiter": ",", "header": true },
+  "fields": [
+    { "to": "external_ref",  "from": "DocNo",    "required": true, "trim": true },
+    { "to": "posting_date",  "from": "PostDate", "required": true, "transform": "date_ymd", "format": "YYYYMMDD" },
+    { "to": "memo",          "from": "Text",     "required": true, "trim": true },
+    { "to": "account_code",  "from": "Account",  "required": true, "transform": "map", "map": { "CASH": "1010", "SUPPLIES": "5220" } },
+    { "to": "side",          "from": "DrCr",     "required": true, "transform": "map", "map": { "DEBIT": "D", "CREDIT": "C" } },
+    { "to": "amount",        "from": "Amount",   "required": true, "transform": "int" }
+  ],
+  "on_error": "stop"
+}

@@ -1,0 +1,62 @@
+/* 업무 보고서(B28) 화면 스타일. 색은 app.css 의 토큰만 쓴다. */
+.report-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 12px 0 16px;
+  border-bottom: 1px solid var(--c-border, #d0d5dd);
+}
+.report-tab {
+  padding: 8px 14px;
+  border-bottom: 3px solid transparent;
+  text-decoration: none;
+  color: inherit;
+}
+.report-tab.active {
+  border-bottom-color: var(--c-primary, #1d4ed8);
+  font-weight: 700;
+}
+.pct-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.pct-track {
+  display: inline-block;
+  width: 72px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--c-border, #e4e7ec);
+  overflow: hidden;
+}
+.pct-fill {
+  display: block;
+  height: 100%;
+}
+.pct-fill.ok {
+  background: var(--c-ok);
+}
+.pct-fill.warn {
+  background: var(--c-warn);
+}
+.pct-fill.bad {
+  background: var(--c-bad);
+}
+.pct-fill.muted {
+  background: var(--c-muted, #667085);
+}
+.report-basis {
+  margin: 8px 0 12px;
+}
+.report-total td {
+  font-weight: 700;
+  border-top: 2px solid var(--c-border, #d0d5dd);
+}
+
+/* 좁은 화면의 쌓인 표에서 값이 없는 칸은 이름만 남지 않게 감춘다. 넓은 화면에서는 칸을 감추면 열이 밀리므로 좁은 화면에만 건다. */
+@media (max-width: 760px) {
+  .stack-table td:empty {
+    display: none;
+  }
+}

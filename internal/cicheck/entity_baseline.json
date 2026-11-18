@@ -1,0 +1,23 @@
+{
+  "files": {},
+  "tables": [
+    "journals",
+    "payables",
+    "payment_requests",
+    "bank_accounts",
+    "card_transactions",
+    "budgets",
+    "purchase_requests",
+    "purchase_orders",
+    "receipts",
+    "month_closes",
+    "tax_invoices",
+    "import_batches",
+    "warehouses",
+    "corporate_cards",
+    "card_imports",
+    "budget_revisions",
+    "company_assets",
+    "stock_valuation"
+  ]
+}

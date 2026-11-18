@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "sample-journals-out-rest",
+  "direction": "out",
+  "target": "journals",
+  "sink": { "kind": "rest", "url": "https://receiver.example.org/hooks/journals", "auth_env": "EXTERNAL_RECEIVER_KEY", "auth_header": "Authorization", "auth_scheme": "Bearer ", "batch_size": 100 },
+  "fields": [
+    { "to": "no",           "from": "no" },
+    { "to": "status",       "from": "status" },
+    { "to": "posting_date", "from": "posting_date" },
+    { "to": "account",      "from": "lines.account_code" },
+    { "to": "side",         "from": "lines.side" },
+    { "to": "amount",       "from": "lines.amount" }
+  ],
+  "on_error": "stop"
+}

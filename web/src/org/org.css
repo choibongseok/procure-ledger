@@ -1,0 +1,161 @@
+/* (web/src/org). 조직도 화면 전용 배치. 색·간격은 공통 변수(app.css)만 쓴다. */
+.org-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+}
+.org-tree-box {
+  overflow-x: auto;
+}
+.org-tree,
+.org-tree ul {
+  list-style: none;
+  margin: 0;
+  padding-left: var(--sp-4);
+}
+.org-tree {
+  padding-left: 0;
+}
+.org-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-1);
+  padding: 2px 0;
+}
+.org-row-selected .org-select {
+  background: var(--c-info-bg);
+  color: var(--c-info);
+  border-radius: var(--radius);
+}
+.org-toggle {
+  min-width: 28px;
+  padding: 0 6px;
+}
+.org-toggle-gap {
+  display: inline-block;
+  min-width: 28px;
+}
+.org-select {
+  font: inherit;
+  font-weight: 400;
+  text-align: left;
+  color: var(--c-text);
+  background: transparent;
+  border: 0;
+  padding: 2px 6px;
+}
+.org-select:hover:not(:disabled) {
+  background: var(--c-muted-bg);
+  color: var(--c-text);
+  border: 0;
+}
+/* 보조 글자는 한 덩어리로만 줄바꿈된다(숫자와 단위가 갈리지 않게). */
+.org-meta {
+  display: inline-block;
+  white-space: nowrap;
+}
+.org-name {
+  font-weight: 600;
+}
+.pick-list {
+  list-style: none;
+  margin: var(--sp-1) 0 0;
+  padding: 0;
+}
+.pick-list li {
+  margin-bottom: var(--sp-1);
+}
+@media (max-width: 760px) {
+  .org-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* 소속 경로는 " > " 단위로만 꺾인다. */
+.org-path {
+  min-width: 140px;
+}
+
+/* 구성원 표: 폭 1280 에서도 가로 스크롤 없이 휴대전화·내선까지 보이도록 촘촘하게 둔다. */
+.org-members {
+  font-size: var(--fs-sm);
+}
+.org-members th,
+.org-members td {
+  padding-left: var(--sp-2);
+  padding-right: var(--sp-2);
+}
+.org-members .org-path {
+  min-width: 0;
+  max-width: 220px;
+}
+
+/* 좁은 화면에서는 표의 행을 쌓아 카드처럼 보인다(안쪽 가로 스크롤로 열이 잘리지 않게). */
+@media (max-width: 760px) {
+  .stack-table thead {
+    display: none;
+  }
+  .stack-table,
+  .stack-table tbody,
+  .stack-table tr,
+  .stack-table td {
+    display: block;
+    width: 100%;
+  }
+  .stack-table tr {
+    border-bottom: 1px solid var(--c-border);
+    padding: var(--sp-2) 0;
+  }
+  .stack-table td {
+    border: 0;
+    padding: 2px 0;
+    white-space: normal;
+  }
+  .stack-table td[data-label]::before {
+    content: attr(data-label) " ";
+    color: var(--c-muted);
+    font-size: var(--fs-sm);
+    margin-right: var(--sp-1);
+  }
+}
+
+/* 조직 일괄 반영(B22): 파일 칸, 건수 카드, 오류 목록 */
+.import-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.import-slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+.import-columns {
+  margin-bottom: var(--sp-3);
+}
+.import-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--sp-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.import-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-surface, #fff);
+}
+.import-card strong {
+  font-size: 1.3rem;
+}
+.import-errors {
+  margin: 0 0 var(--sp-3);
+  padding-left: var(--sp-4);
+}

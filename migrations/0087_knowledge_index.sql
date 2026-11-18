@@ -1,0 +1,32 @@
+-- 0087 (B47 1단계, 명세 4.1절): 사내 지식 검색 색인. 지식 문서(결재 문서·첨부·업로드)와 조각. **권한 정보는 이 표에 없다**(열람 판정은 조회 때 ViewScope 로 다시 한다).
+-- entity_id 는 법인(B44)이고 업로드만 0(= 전 법인 공통)을 허용한다. 조각은 800자 안팎이고 locator 가 쪽·조항·소제목 표지다.
+CREATE TABLE knowledge_docs (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    entity_id     INTEGER NOT NULL DEFAULT 1,
+    source_kind   TEXT NOT NULL CHECK (source_kind IN ('approval_doc','attachment','upload')),
+    source_id     INTEGER NOT NULL,
+    parent_doc_id INTEGER NOT NULL DEFAULT 0,
+    title         TEXT NOT NULL DEFAULT '',
+    doc_no        TEXT NOT NULL DEFAULT '',
+    form_code     TEXT NOT NULL DEFAULT '',
+    version       INTEGER NOT NULL DEFAULT 1,
+    content_hash  TEXT NOT NULL DEFAULT '',
+    extract_state TEXT NOT NULL CHECK (extract_state IN ('ready','pending','no_text','unreadable','unsupported','too_long','failed')),
+    extract_note  TEXT NOT NULL DEFAULT '',
+    chunk_count   INTEGER NOT NULL DEFAULT 0,
+    indexed_at    TEXT NOT NULL,
+    UNIQUE (source_kind, source_id)
+);
+CREATE TABLE knowledge_chunks (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    doc_id       INTEGER NOT NULL REFERENCES knowledge_docs(id),
+    entity_id    INTEGER NOT NULL,
+    seq          INTEGER NOT NULL,
+    locator_kind TEXT NOT NULL CHECK (locator_kind IN ('body','page','clause','heading','para')),
+    locator      TEXT NOT NULL DEFAULT '',
+    heading      TEXT NOT NULL DEFAULT '',
+    text         TEXT NOT NULL,
+    UNIQUE (doc_id, seq)
+);
+CREATE INDEX idx_knowledge_chunks_entity ON knowledge_chunks(entity_id, doc_id);
+CREATE INDEX idx_knowledge_docs_parent ON knowledge_docs(parent_doc_id);

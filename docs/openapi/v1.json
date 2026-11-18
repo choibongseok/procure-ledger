@@ -1,0 +1,3348 @@
+{
+  "components": {
+    "schemas": {
+      "Change": {
+        "properties": {
+          "at": {
+            "description": "기록 시각(RFC3339 UTC)",
+            "type": "string"
+          },
+          "id": {
+            "description": "대상 번호",
+            "type": "integer"
+          },
+          "op": {
+            "description": "created | updated | status_changed | canceled",
+            "type": "string"
+          },
+          "resource": {
+            "description": "item | vendor | purchase_order | receipt | journal | payable",
+            "type": "string"
+          },
+          "seq": {
+            "description": "피드 번호(증가 순서 = 커밋 순서)",
+            "type": "integer"
+          },
+          "seq_str": {
+            "description": "seq 의 문자열 표현(자릿수가 큰 클라이언트용)",
+            "type": "string"
+          },
+          "status": {
+            "description": "새 상태 코드(상태가 있는 자원만)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "at",
+          "id",
+          "op",
+          "resource",
+          "seq",
+          "seq_str"
+        ],
+        "type": "object"
+      },
+      "ChangeHead": {
+        "properties": {
+          "cursor": {
+            "description": "현재 가장 큰 번호의 커서",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cursor"
+        ],
+        "type": "object"
+      },
+      "ErrorBody": {
+        "properties": {
+          "code": {
+            "description": "unauthenticated | forbidden_scope | not_found | invalid_argument | rate_limited | cursor_expired | conflict | unavailable | api_disabled",
+            "type": "string"
+          },
+          "message": {
+            "description": "한국어 설명",
+            "type": "string"
+          },
+          "request_id": {
+            "description": "X-Request-Id 와 같은 값",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "request_id"
+        ],
+        "type": "object"
+      },
+      "ImportApplied": {
+        "properties": {
+          "applied_at": {
+            "description": "반영 시각(RFC3339 UTC)",
+            "type": "string"
+          },
+          "batch_no": {
+            "description": "가져오기 묶음 번호",
+            "type": "string"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/ImportCounts"
+          },
+          "status": {
+            "description": "applied",
+            "type": "string"
+          },
+          "target": {
+            "description": "vendors | items",
+            "type": "string"
+          }
+        },
+        "required": [
+          "batch_no",
+          "counts",
+          "status",
+          "target"
+        ],
+        "type": "object"
+      },
+      "ImportApplyRequest": {
+        "properties": {
+          "apply_token": {
+            "description": "미리보기 응답의 apply_token(일회용)",
+            "type": "string"
+          },
+          "rows": {
+            "description": "미리보기와 같은 행",
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "apply_token",
+          "rows"
+        ],
+        "type": "object"
+      },
+      "ImportChange": {
+        "properties": {
+          "column": {
+            "description": "열 이름",
+            "type": "string"
+          },
+          "new": {
+            "description": "새 값(민감 열은 가린 값)",
+            "type": "string"
+          },
+          "old": {
+            "description": "이전 값(민감 열은 가린 값)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "column",
+          "new",
+          "old"
+        ],
+        "type": "object"
+      },
+      "ImportCounts": {
+        "properties": {
+          "add": {
+            "description": "추가될 행",
+            "type": "integer"
+          },
+          "change": {
+            "description": "바뀔 행",
+            "type": "integer"
+          },
+          "error": {
+            "description": "오류 행",
+            "type": "integer"
+          },
+          "same": {
+            "description": "이미 같은 행",
+            "type": "integer"
+          },
+          "total": {
+            "description": "전체 행",
+            "type": "integer"
+          },
+          "warn": {
+            "description": "경고가 붙은 행",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "add",
+          "change",
+          "error",
+          "same",
+          "total",
+          "warn"
+        ],
+        "type": "object"
+      },
+      "ImportPreview": {
+        "properties": {
+          "applicable": {
+            "description": "오류 0건이고 반영할 변경이 있다",
+            "type": "boolean"
+          },
+          "apply_token": {
+            "description": "반영 토큰. 이 응답에서만 보인다(일회용, 24시간). 반영할 수 없으면 없다",
+            "type": "string"
+          },
+          "batch_no": {
+            "description": "가져오기 묶음 번호(전부 같은 행이면 빈 값)",
+            "type": "string"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/ImportCounts"
+          },
+          "message": {
+            "description": "반영할 수 없을 때의 한국어 안내",
+            "type": "string"
+          },
+          "rows": {
+            "description": "오류·경고·변경·추가 순으로 최대 200행",
+            "items": {
+              "$ref": "#/components/schemas/ImportRowResult"
+            },
+            "type": "array"
+          },
+          "rows_truncated": {
+            "description": "더 많은 행이 있다",
+            "type": "boolean"
+          },
+          "target": {
+            "description": "vendors | items",
+            "type": "string"
+          }
+        },
+        "required": [
+          "applicable",
+          "batch_no",
+          "counts",
+          "rows",
+          "rows_truncated",
+          "target"
+        ],
+        "type": "object"
+      },
+      "ImportRequest": {
+        "properties": {
+          "rows": {
+            "description": "가져올 행(최대 5,000). 키는 양식 열 식별자",
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "rows"
+        ],
+        "type": "object"
+      },
+      "ImportRowResult": {
+        "properties": {
+          "changes": {
+            "description": "바뀌는 칸",
+            "items": {
+              "$ref": "#/components/schemas/ImportChange"
+            },
+            "type": "array"
+          },
+          "key": {
+            "description": "행을 구분하는 키(민감한 키는 가린 값)",
+            "type": "string"
+          },
+          "reason": {
+            "description": "오류 사유(한국어)",
+            "type": "string"
+          },
+          "row_no": {
+            "description": "보낸 행의 순번(1부터가 아니라 양식의 행 번호: 첫 데이터 행이 2)",
+            "type": "integer"
+          },
+          "verdict": {
+            "description": "add | change | same | error",
+            "type": "string"
+          },
+          "warn": {
+            "description": "경고 문구(한국어)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "row_no",
+          "verdict"
+        ],
+        "type": "object"
+      },
+      "Item": {
+        "properties": {
+          "id": {
+            "description": "품목 번호",
+            "type": "integer"
+          },
+          "name": {
+            "description": "품목 이름",
+            "type": "string"
+          },
+          "on_hand": {
+            "description": "현재 재고 수량(원장 합)",
+            "type": "integer"
+          },
+          "safety_stock": {
+            "description": "안전재고",
+            "type": "integer"
+          },
+          "sku": {
+            "description": "품목 코드",
+            "type": "string"
+          },
+          "track_lot": {
+            "description": "로트 관리 여부",
+            "type": "boolean"
+          },
+          "unit": {
+            "description": "단위",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "on_hand",
+          "safety_stock",
+          "sku",
+          "track_lot",
+          "unit"
+        ],
+        "type": "object"
+      },
+      "Journal": {
+        "properties": {
+          "id": {
+            "description": "전표 번호(내부)",
+            "type": "integer"
+          },
+          "kind": {
+            "description": "전표 종류",
+            "type": "string"
+          },
+          "lines": {
+            "description": "전표 줄",
+            "items": {
+              "$ref": "#/components/schemas/JournalLine"
+            },
+            "type": "array"
+          },
+          "no": {
+            "description": "전표 번호",
+            "type": "string"
+          },
+          "posting_date": {
+            "description": "전기일(YYYY-MM-DD)",
+            "type": "string"
+          },
+          "source_id": {
+            "description": "출처 번호",
+            "type": "integer"
+          },
+          "source_type": {
+            "description": "출처 종류(없으면 빈 값)",
+            "type": "string"
+          },
+          "status": {
+            "description": "draft | requested | approved | canceled",
+            "type": "string"
+          },
+          "total_amount": {
+            "description": "합계 금액(원)",
+            "type": "integer"
+          },
+          "trade_date": {
+            "description": "거래일(YYYY-MM-DD)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "lines",
+          "no",
+          "posting_date",
+          "source_id",
+          "source_type",
+          "status",
+          "total_amount",
+          "trade_date"
+        ],
+        "type": "object"
+      },
+      "JournalDraft": {
+        "properties": {
+          "external_ref": {
+            "description": "보낸 external_ref",
+            "type": "string"
+          },
+          "no": {
+            "description": "전표 번호",
+            "type": "string"
+          },
+          "posting_date": {
+            "description": "전기일",
+            "type": "string"
+          },
+          "status": {
+            "description": "draft",
+            "type": "string"
+          },
+          "total_amount": {
+            "description": "합계 금액(원)",
+            "type": "integer"
+          },
+          "trade_date": {
+            "description": "거래일",
+            "type": "string"
+          }
+        },
+        "required": [
+          "external_ref",
+          "no",
+          "posting_date",
+          "status",
+          "total_amount",
+          "trade_date"
+        ],
+        "type": "object"
+      },
+      "JournalDraftLine": {
+        "properties": {
+          "account_code": {
+            "description": "계정 코드(4자리)",
+            "type": "string"
+          },
+          "amount": {
+            "description": "금액(원, 1 이상)",
+            "type": "integer"
+          },
+          "memo": {
+            "description": "줄 적요(200자 이내)",
+            "type": "string"
+          },
+          "side": {
+            "description": "D(차변) | C(대변)",
+            "type": "string"
+          },
+          "vendor_id": {
+            "description": "거래처 번호(외상매입금 줄은 필수)",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "account_code",
+          "amount",
+          "side"
+        ],
+        "type": "object"
+      },
+      "JournalDraftRequest": {
+        "properties": {
+          "external_ref": {
+            "description": "호출자가 정하는 1~64자 식별자. 같은 토큰의 같은 값은 멱등이다(내용이 다르면 409)",
+            "type": "string"
+          },
+          "lines": {
+            "description": "전표 줄(2개 이상, 차변 합계 = 대변 합계)",
+            "items": {
+              "$ref": "#/components/schemas/JournalDraftLine"
+            },
+            "type": "array"
+          },
+          "memo": {
+            "description": "적요(1~200자)",
+            "type": "string"
+          },
+          "posting_date": {
+            "description": "전기일(YYYY-MM-DD). 마감된 달이면 거부된다",
+            "type": "string"
+          },
+          "trade_date": {
+            "description": "거래일(YYYY-MM-DD, 비우면 전기일)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "external_ref",
+          "lines",
+          "memo",
+          "posting_date"
+        ],
+        "type": "object"
+      },
+      "JournalLine": {
+        "properties": {
+          "account_code": {
+            "description": "계정 코드",
+            "type": "string"
+          },
+          "amount": {
+            "description": "금액(원)",
+            "type": "integer"
+          },
+          "memo": {
+            "description": "줄 메모",
+            "type": "string"
+          },
+          "seq": {
+            "description": "줄 순번",
+            "type": "integer"
+          },
+          "side": {
+            "description": "D(차변) | C(대변)",
+            "type": "string"
+          },
+          "vendor_id": {
+            "description": "거래처 번호(채무 줄)",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "account_code",
+          "amount",
+          "seq",
+          "side"
+        ],
+        "type": "object"
+      },
+      "POLine": {
+        "properties": {
+          "item_id": {
+            "description": "품목 번호",
+            "type": "integer"
+          },
+          "quantity": {
+            "description": "발주 수량",
+            "type": "integer"
+          },
+          "received_quantity": {
+            "description": "지금까지 입고한 수량",
+            "type": "integer"
+          },
+          "unit_price": {
+            "description": "단가(원)",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "item_id",
+          "quantity",
+          "received_quantity",
+          "unit_price"
+        ],
+        "type": "object"
+      },
+      "Payable": {
+        "properties": {
+          "amount": {
+            "description": "채무 금액(원)",
+            "type": "integer"
+          },
+          "due_date": {
+            "description": "만기(YYYY-MM-DD)",
+            "type": "string"
+          },
+          "id": {
+            "description": "채무 항목 번호",
+            "type": "integer"
+          },
+          "journal_no": {
+            "description": "원 전표 번호",
+            "type": "string"
+          },
+          "paid_amount": {
+            "description": "지급한 금액(원)",
+            "type": "integer"
+          },
+          "status": {
+            "description": "open | partial | paid | canceled",
+            "type": "string"
+          },
+          "trade_date": {
+            "description": "거래일(YYYY-MM-DD)",
+            "type": "string"
+          },
+          "vendor_id": {
+            "description": "거래처 번호",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "amount",
+          "due_date",
+          "id",
+          "journal_no",
+          "paid_amount",
+          "status",
+          "trade_date",
+          "vendor_id"
+        ],
+        "type": "object"
+      },
+      "PurchaseOrder": {
+        "properties": {
+          "created_at": {
+            "description": "발주 시각(RFC3339 UTC)",
+            "type": "string"
+          },
+          "due_date": {
+            "description": "희망 납기(YYYY-MM-DD, 없으면 빈 값)",
+            "type": "string"
+          },
+          "id": {
+            "description": "발주 번호(내부)",
+            "type": "integer"
+          },
+          "lines": {
+            "description": "발주 줄",
+            "items": {
+              "$ref": "#/components/schemas/POLine"
+            },
+            "type": "array"
+          },
+          "no": {
+            "description": "발주 번호(PO-000001 형식)",
+            "type": "string"
+          },
+          "status": {
+            "description": "open | partial | received",
+            "type": "string"
+          },
+          "vendor_id": {
+            "description": "거래처 번호(없으면 0)",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "created_at",
+          "due_date",
+          "id",
+          "lines",
+          "no",
+          "status",
+          "vendor_id"
+        ],
+        "type": "object"
+      },
+      "Receipt": {
+        "properties": {
+          "id": {
+            "description": "입고 번호",
+            "type": "integer"
+          },
+          "lines": {
+            "description": "입고 줄",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptLine"
+            },
+            "type": "array"
+          },
+          "po_id": {
+            "description": "발주 번호(내부)",
+            "type": "integer"
+          },
+          "po_no": {
+            "description": "발주 번호(PO-000001 형식)",
+            "type": "string"
+          },
+          "received_at": {
+            "description": "입고 시각(RFC3339 UTC)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "lines",
+          "po_id",
+          "po_no",
+          "received_at"
+        ],
+        "type": "object"
+      },
+      "ReceiptLine": {
+        "properties": {
+          "item_id": {
+            "description": "품목 번호",
+            "type": "integer"
+          },
+          "lot_no": {
+            "description": "로트 번호(없으면 빈 값)",
+            "type": "string"
+          },
+          "po_line_id": {
+            "description": "발주 줄 번호",
+            "type": "integer"
+          },
+          "quantity": {
+            "description": "입고 수량",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "item_id",
+          "lot_no",
+          "po_line_id",
+          "quantity"
+        ],
+        "type": "object"
+      },
+      "TaxInvoice": {
+        "properties": {
+          "amend_of_no": {
+            "description": "수정세금계산서면 정정하는 원 건의 번호",
+            "type": "string"
+          },
+          "amend_reason": {
+            "description": "수정 사유 코드(수정세금계산서만)",
+            "type": "string"
+          },
+          "approval_no": {
+            "description": "국세청 승인번호(24자, 아직 없으면 빈 값)",
+            "type": "string"
+          },
+          "buyer_biz_no": {
+            "description": "공급받는자 사업자번호(가린 값)",
+            "type": "string"
+          },
+          "buyer_name": {
+            "description": "공급받는자 상호",
+            "type": "string"
+          },
+          "direction": {
+            "description": "sale(매출) | purchase(매입)",
+            "type": "string"
+          },
+          "id": {
+            "description": "세금계산서 번호(내부)",
+            "type": "integer"
+          },
+          "issue_date": {
+            "description": "작성일(YYYY-MM-DD)",
+            "type": "string"
+          },
+          "line_count": {
+            "description": "품목 줄 수",
+            "type": "integer"
+          },
+          "no": {
+            "description": "세금계산서 번호(TI-000001 형식)",
+            "type": "string"
+          },
+          "status": {
+            "description": "draft | issued | sent | accepted | failed | canceled",
+            "type": "string"
+          },
+          "supplier_biz_no": {
+            "description": "공급자 사업자번호(가린 값)",
+            "type": "string"
+          },
+          "supplier_name": {
+            "description": "공급자 상호",
+            "type": "string"
+          },
+          "supply_total": {
+            "description": "공급가액(원)",
+            "type": "integer"
+          },
+          "tax_total": {
+            "description": "세액(원)",
+            "type": "integer"
+          },
+          "tax_type": {
+            "description": "taxable(과세) | zero(영세율) | exempt(면세)",
+            "type": "string"
+          },
+          "total": {
+            "description": "합계(원)",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "approval_no",
+          "buyer_biz_no",
+          "buyer_name",
+          "direction",
+          "id",
+          "issue_date",
+          "line_count",
+          "no",
+          "status",
+          "supplier_biz_no",
+          "supplier_name",
+          "supply_total",
+          "tax_total",
+          "tax_type",
+          "total"
+        ],
+        "type": "object"
+      },
+      "Vendor": {
+        "properties": {
+          "account_no": {
+            "description": "계좌번호(가려진 값)",
+            "type": "string"
+          },
+          "business_no": {
+            "description": "사업자번호(가려진 값)",
+            "type": "string"
+          },
+          "email": {
+            "description": "이메일(가려진 값)",
+            "type": "string"
+          },
+          "id": {
+            "description": "거래처 번호",
+            "type": "integer"
+          },
+          "name": {
+            "description": "거래처 이름",
+            "type": "string"
+          },
+          "phone": {
+            "description": "전화(가려진 값)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "account_no",
+          "business_no",
+          "email",
+          "id",
+          "name",
+          "phone"
+        ],
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "관리자 화면에서 발급한 pli_ 토큰",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "description": "외부 시스템이 품목·거래처·발주·입고·전표·채무를 읽고 변경 피드로 증분을 따라가며, 거래처·품목을 가져오고 전표 초안을 제출하는 API. 인증은 Authorization: Bearer pli_… 토큰이다. 번호·금액은 정수, 시각은 RFC3339 UTC, 필드 이름은 snake_case 다. 거래처의 사업자번호·계좌·연락처는 항상 가려진 값이고 사람 정보(작성자·승인자·사번)는 어떤 응답에도 없다.",
+    "title": "ProcureLedger 연동 API",
+    "version": "1"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/changes": {
+      "get": {
+        "operationId": "getChanges",
+        "parameters": [
+          {
+            "description": "시작 위치(/changes/head 또는 이전 응답의 next_cursor, c1.\u003c번호\u003e)",
+            "in": "query",
+            "name": "cursor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 번에 받을 건수(1~500, 기본 200)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "쉼표로 구분한 자원 이름(item·vendor·purchase_order·receipt·journal·payable·tax_invoice). 비우면 읽기 범위가 있는 모든 자원",
+            "in": "query",
+            "name": "resource",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Change"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음에 보낼 커서",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "변경 피드(번호 순서 = 커밋 순서)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "410": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "커서가 만료되었습니다(cursor_expired). 전체를 다시 읽는다"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "변경 피드: 커서 다음의 변경(값 없음, 읽기 범위를 가진 자원만)",
+        "tags": [
+          "변경 피드"
+        ],
+        "x-required-scope": "changes:read"
+      }
+    },
+    "/api/v1/changes/head": {
+      "get": {
+        "operationId": "getChangesHead",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ChangeHead"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "현재 피드 위치"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "현재 변경 피드 위치(최초 적재를 시작하기 전에 받아 둔다)",
+        "tags": [
+          "변경 피드"
+        ],
+        "x-required-scope": "changes:read"
+      }
+    },
+    "/api/v1/imports/items/batches/{batch}/apply": {
+      "post": {
+        "operationId": "postImportsItemsBatches{Batch}Apply",
+        "parameters": [
+          {
+            "description": "미리보기가 돌려준 묶음 번호",
+            "in": "path",
+            "name": "batch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "1~64자의 영문·숫자·_ . : - . 같은 키·같은 본문의 재요청은 첫 응답을 그대로 돌려준다(Idempotent-Replayed: true 헤더). 같은 키로 다른 본문을 보내면 409(conflict). 24시간 보존",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportApplyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportApplied"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "결과(data)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "이미 있는 값과 충돌하거나 현재 상태에서 할 수 없습니다(conflict). 마감된 달의 전표, 같은 external_ref 의 다른 내용, 같은 Idempotency-Key 의 다른 본문 등"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 본문이 너무 큽니다(5MB 이하)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "품목 가져오기 반영(미리보기와 같은 행과 반영 토큰)",
+        "tags": [
+          "쓰기"
+        ],
+        "x-required-scope": "items:write"
+      }
+    },
+    "/api/v1/imports/items/preview": {
+      "post": {
+        "operationId": "postImportsItemsPreview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportPreview"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "결과(data)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "이미 있는 값과 충돌하거나 현재 상태에서 할 수 없습니다(conflict). 마감된 달의 전표, 같은 external_ref 의 다른 내용, 같은 Idempotency-Key 의 다른 본문 등"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 본문이 너무 큽니다(5MB 이하)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "품목 가져오기 미리보기(아무것도 반영하지 않는다)",
+        "tags": [
+          "쓰기"
+        ],
+        "x-required-scope": "items:write"
+      }
+    },
+    "/api/v1/imports/vendors/batches/{batch}/apply": {
+      "post": {
+        "operationId": "postImportsVendorsBatches{Batch}Apply",
+        "parameters": [
+          {
+            "description": "미리보기가 돌려준 묶음 번호",
+            "in": "path",
+            "name": "batch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "1~64자의 영문·숫자·_ . : - . 같은 키·같은 본문의 재요청은 첫 응답을 그대로 돌려준다(Idempotent-Replayed: true 헤더). 같은 키로 다른 본문을 보내면 409(conflict). 24시간 보존",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportApplyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportApplied"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "결과(data)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "이미 있는 값과 충돌하거나 현재 상태에서 할 수 없습니다(conflict). 마감된 달의 전표, 같은 external_ref 의 다른 내용, 같은 Idempotency-Key 의 다른 본문 등"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 본문이 너무 큽니다(5MB 이하)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "거래처 가져오기 반영(미리보기와 같은 행과 반영 토큰, 오류가 하나라도 있으면 반영하지 않는다)",
+        "tags": [
+          "쓰기"
+        ],
+        "x-required-scope": "vendors:write"
+      }
+    },
+    "/api/v1/imports/vendors/preview": {
+      "post": {
+        "operationId": "postImportsVendorsPreview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ImportPreview"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "결과(data)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "이미 있는 값과 충돌하거나 현재 상태에서 할 수 없습니다(conflict). 마감된 달의 전표, 같은 external_ref 의 다른 내용, 같은 Idempotency-Key 의 다른 본문 등"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 본문이 너무 큽니다(5MB 이하)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "거래처 가져오기 미리보기(아무것도 반영하지 않는다)",
+        "tags": [
+          "쓰기"
+        ],
+        "x-required-scope": "vendors:write"
+      }
+    },
+    "/api/v1/items": {
+      "get": {
+        "operationId": "getItems",
+        "parameters": [
+          {
+            "description": "한 번에 받을 건수(1~200, 기본 100)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "마지막으로 받은 번호. 이 번호 다음부터 번호 오름차순으로 읽는다(기본 0 = 처음부터)",
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "이전 응답의 next_cursor(p1.\u003c번호\u003e). after 대신 쓸 수 있다",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 건만 읽는다(웹훅 본문 api_url 의 ?id=). 이 번호의 항목만 돌려주고 없으면 빈 목록이다. 주면 after·cursor·limit 는 무시한다",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Item"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음 쪽을 읽을 커서(더 없으면 null)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "목록 한 쪽(번호 오름차순)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "품목과 현재 재고 수량 목록",
+        "tags": [
+          "자원"
+        ],
+        "x-required-scope": "items:read"
+      }
+    },
+    "/api/v1/journals": {
+      "get": {
+        "operationId": "getJournals",
+        "parameters": [
+          {
+            "description": "한 번에 받을 건수(1~200, 기본 100)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "마지막으로 받은 번호. 이 번호 다음부터 번호 오름차순으로 읽는다(기본 0 = 처음부터)",
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "이전 응답의 next_cursor(p1.\u003c번호\u003e). after 대신 쓸 수 있다",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 건만 읽는다(웹훅 본문 api_url 의 ?id=). 이 번호의 항목만 돌려주고 없으면 빈 목록이다. 주면 after·cursor·limit 는 무시한다",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Journal"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음 쪽을 읽을 커서(더 없으면 null)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "목록 한 쪽(번호 오름차순)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "전표 목록(줄 포함, 금액 포함)",
+        "tags": [
+          "자원"
+        ],
+        "x-required-scope": "journals:read"
+      },
+      "post": {
+        "operationId": "postJournals",
+        "parameters": [
+          {
+            "description": "1~64자의 영문·숫자·_ . : - . 같은 키·같은 본문의 재요청은 첫 응답을 그대로 돌려준다(Idempotent-Replayed: true 헤더). 같은 키로 다른 본문을 보내면 409(conflict). 24시간 보존",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JournalDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/JournalDraft"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "결과(data)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "이미 있는 값과 충돌하거나 현재 상태에서 할 수 없습니다(conflict). 마감된 달의 전표, 같은 external_ref 의 다른 내용, 같은 Idempotency-Key 의 다른 본문 등"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 본문이 너무 큽니다(5MB 이하)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "전표 초안 제출(초안까지만 만든다. 승인 요청·승인·취소 경로는 없다)",
+        "tags": [
+          "쓰기"
+        ],
+        "x-required-scope": "journals:draft"
+      }
+    },
+    "/api/v1/openapi.json": {
+      "get": {
+        "operationId": "getOpenapi.Json",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OpenAPI 3.1 문서"
+          }
+        },
+        "security": [],
+        "summary": "이 API 의 OpenAPI 문서(스키마만, 값 없음)",
+        "tags": [
+          "문서"
+        ]
+      }
+    },
+    "/api/v1/payables": {
+      "get": {
+        "operationId": "getPayables",
+        "parameters": [
+          {
+            "description": "한 번에 받을 건수(1~200, 기본 100)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "마지막으로 받은 번호. 이 번호 다음부터 번호 오름차순으로 읽는다(기본 0 = 처음부터)",
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "이전 응답의 next_cursor(p1.\u003c번호\u003e). after 대신 쓸 수 있다",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 건만 읽는다(웹훅 본문 api_url 의 ?id=). 이 번호의 항목만 돌려주고 없으면 빈 목록이다. 주면 after·cursor·limit 는 무시한다",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Payable"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음 쪽을 읽을 커서(더 없으면 null)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "목록 한 쪽(번호 오름차순)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "매입 채무 항목 목록",
+        "tags": [
+          "자원"
+        ],
+        "x-required-scope": "payables:read"
+      }
+    },
+    "/api/v1/purchase-orders": {
+      "get": {
+        "operationId": "getPurchaseOrders",
+        "parameters": [
+          {
+            "description": "한 번에 받을 건수(1~200, 기본 100)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "마지막으로 받은 번호. 이 번호 다음부터 번호 오름차순으로 읽는다(기본 0 = 처음부터)",
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "이전 응답의 next_cursor(p1.\u003c번호\u003e). after 대신 쓸 수 있다",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 건만 읽는다(웹훅 본문 api_url 의 ?id=). 이 번호의 항목만 돌려주고 없으면 빈 목록이다. 주면 after·cursor·limit 는 무시한다",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/PurchaseOrder"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음 쪽을 읽을 커서(더 없으면 null)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "목록 한 쪽(번호 오름차순)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "발주 목록",
+        "tags": [
+          "자원"
+        ],
+        "x-required-scope": "purchase_orders:read"
+      }
+    },
+    "/api/v1/receipts": {
+      "get": {
+        "operationId": "getReceipts",
+        "parameters": [
+          {
+            "description": "한 번에 받을 건수(1~200, 기본 100)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "마지막으로 받은 번호. 이 번호 다음부터 번호 오름차순으로 읽는다(기본 0 = 처음부터)",
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "이전 응답의 next_cursor(p1.\u003c번호\u003e). after 대신 쓸 수 있다",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 건만 읽는다(웹훅 본문 api_url 의 ?id=). 이 번호의 항목만 돌려주고 없으면 빈 목록이다. 주면 after·cursor·limit 는 무시한다",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Receipt"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음 쪽을 읽을 커서(더 없으면 null)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "목록 한 쪽(번호 오름차순)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "입고 목록",
+        "tags": [
+          "자원"
+        ],
+        "x-required-scope": "receipts:read"
+      }
+    },
+    "/api/v1/tax-invoices": {
+      "get": {
+        "operationId": "getTaxInvoices",
+        "parameters": [
+          {
+            "description": "한 번에 받을 건수(1~200, 기본 100)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "마지막으로 받은 번호. 이 번호 다음부터 번호 오름차순으로 읽는다(기본 0 = 처음부터)",
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "이전 응답의 next_cursor(p1.\u003c번호\u003e). after 대신 쓸 수 있다",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 건만 읽는다(웹훅 본문 api_url 의 ?id=). 이 번호의 항목만 돌려주고 없으면 빈 목록이다. 주면 after·cursor·limit 는 무시한다",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/TaxInvoice"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음 쪽을 읽을 커서(더 없으면 null)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "목록 한 쪽(번호 오름차순)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "세금계산서 목록(사업자번호는 항상 가려진 값, 이메일·주소·대표자·품목 이름 없음)",
+        "tags": [
+          "자원"
+        ],
+        "x-required-scope": "tax_invoices:read"
+      }
+    },
+    "/api/v1/vendors": {
+      "get": {
+        "operationId": "getVendors",
+        "parameters": [
+          {
+            "description": "한 번에 받을 건수(1~200, 기본 100)",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "마지막으로 받은 번호. 이 번호 다음부터 번호 오름차순으로 읽는다(기본 0 = 처음부터)",
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "이전 응답의 next_cursor(p1.\u003c번호\u003e). after 대신 쓸 수 있다",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "한 건만 읽는다(웹훅 본문 api_url 의 ?id=). 이 번호의 항목만 돌려주고 없으면 빈 목록이다. 주면 after·cursor·limit 는 무시한다",
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Vendor"
+                      },
+                      "type": "array"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "next_cursor": {
+                      "description": "다음 쪽을 읽을 커서(더 없으면 null)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "next_cursor",
+                    "has_more"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "목록 한 쪽(번호 오름차순)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "요청 값이 올바르지 않습니다(invalid_argument)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰이 올바르지 않거나 만료되었습니다(unauthenticated)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "토큰의 범위가 맞지 않거나 API 가 꺼져 있습니다(forbidden_scope·api_disabled)"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "호출 한도를 넘었습니다(rate_limited). Retry-After 헤더가 다음 시도까지의 초를 알린다"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/ErrorBody"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "서버 오류(unavailable)"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "거래처 목록(사업자번호·계좌·연락처는 항상 가려진 값)",
+        "tags": [
+          "자원"
+        ],
+        "x-required-scope": "vendors:read"
+      }
+    }
+  },
+  "x-error-codes": [
+    "unauthenticated",
+    "forbidden_scope",
+    "not_found",
+    "invalid_argument",
+    "rate_limited",
+    "cursor_expired",
+    "conflict",
+    "unavailable",
+    "api_disabled"
+  ]
+}

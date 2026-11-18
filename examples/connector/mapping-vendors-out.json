@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "name": "sample-vendors-out",
+  "direction": "out",
+  "target": "vendors",
+  "sink": { "kind": "csv", "path": "out/vendors.csv" },
+  "fields": [
+    { "to": "VendorId",   "from": "id" },
+    { "to": "VendorName", "from": "name", "transform": "upper" },
+    { "to": "Source",     "transform": "const", "value": "procure-ledger" }
+  ],
+  "on_error": "stop"
+}

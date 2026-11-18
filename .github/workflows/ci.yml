@@ -1,0 +1,56 @@
+# CI 는 로컬과 같은 `make verify` 하나가 정본이다. 화면 스모크(make verify-ui)는 별도 잡이다.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# main 은 모든 커밋을 검증하도록 취소하지 않고, 그 밖의 ref 는 새 push 가 이전 run 을 취소한다.
+concurrency:
+  group: ci-${{ github.ref }}${{ github.ref == 'refs/heads/main' && format('-{0}', github.sha) || '' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 검증
+        run: make verify
+
+  # 브라우저 화면 스모크. verify 와 별도 잡이라 어느 쪽이 깨졌는지 분명하다. 단계별 스크린샷을 아티팩트로 남긴다.
+  ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 브라우저 화면 스모크
+        env:
+          UI_INSTALL_DEPS: "1"
+        run: make verify-ui
+      - name: 스크린샷 업로드
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-screenshots
+          path: ui-screenshots/
+          if-no-files-found: warn
+          retention-days: 14
