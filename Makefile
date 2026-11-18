@@ -4,7 +4,7 @@
 # 셸에 남아 있는 GOROOT(다른 Go 버전)가 툴체인과 어긋나는 사고를 막는다.
 unexport GOROOT
 
-.PHONY: build web test verify verify-ui verify-docker verify-pg openapi openapi-check connector-demo clean
+.PHONY: build web test test-examples verify verify-ui verify-docker verify-pg openapi openapi-check connector-demo webhook-nest-live clean
 
 # -trimpath: 빌드한 사람의 절대 경로(홈 폴더 이름 등)가 바이너리에 남지 않게 한다(Dockerfile 과 같다).
 build: web
@@ -16,6 +16,12 @@ web:
 
 test:
 	go test ./...
+
+# 예제(examples/webhook-consumer-nest, NestJS 서명 알림 수신기)의 타입 검사·단위·e2e 시험. make verify 의 6단계와 같다.
+test-examples:
+	npm --prefix examples/webhook-consumer-nest ci --no-audit --no-fund
+	npm --prefix examples/webhook-consumer-nest run typecheck
+	npm --prefix examples/webhook-consumer-nest run test:all
 
 verify:
 	bash scripts/verify.sh
@@ -44,6 +50,12 @@ openapi-check:
 # 커넥터 예시(B42 3단계): examples/connector 의 매핑으로 실제 서버(시험용 조립) 위에서 거래처·전표를 들이고 거래처를 CSV 로 내보낸다. 설명은 examples/connector/README.md.
 connector-demo:
 	go test ./cmd/server -run 'TestConnectorDemo' -count=1 -v
+
+# 선택 타깃(verify 에 포함되지 않는다): 실제 서버(bin/server, 개발 모드)가 보내는 서명 알림을 NestJS 수신기가 받는지 확인한다. 설명은 examples/webhook-consumer-nest/README.md.
+webhook-nest-live: build
+	npm --prefix examples/webhook-consumer-nest ci --no-audit --no-fund
+	npm --prefix examples/webhook-consumer-nest run build
+	bash examples/webhook-consumer-nest/scripts/live-check.sh
 
 clean:
 	rm -rf bin

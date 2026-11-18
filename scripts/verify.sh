@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# make verify 의 본체(spec 5절의 5개 단계).
+# make verify 의 본체(spec 5절의 5개 단계 + 예제 시험 1개).
 #
 # 규칙
 #  - 단계가 실패하면 FAIL, 아직 없는 단계는 "미구현"으로 표시한다(실패로 세지는 않지만 요약에서 따로 센다).
@@ -60,6 +60,12 @@ stage3() {
   npm --prefix web run typecheck && npm --prefix web test && npm --prefix web run build
 }
 
+stage6() {
+  local app=examples/webhook-consumer-nest
+  [ -d "$app/node_modules" ] || npm --prefix "$app" ci --no-audit --no-fund || return 1
+  npm --prefix "$app" run typecheck && npm --prefix "$app" run test:all
+}
+
 echo "ProcureLedger verify ($(date '+%Y-%m-%d %H:%M:%S'))"
 
 stage "1. go vet · go test" stage1
@@ -82,6 +88,8 @@ case $rc in
   3) record "5. e2e 스모크" "미구현" "e2e.sh 에 미구현 단계가 남아 있음" ;;
   *) record "5. e2e 스모크" "실패" "종료 코드 $rc" ;;
 esac
+
+stage "6. 예제 NestJS 수신기 tsc · jest(단위·e2e)" stage6
 
 echo
 echo "================ 요약 ================"

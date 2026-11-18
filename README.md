@@ -14,7 +14,7 @@
 개발용 로그인(`PL_DEV_IDP=1`)으로 비밀번호 없이 역할별 계정으로 들어갑니다. 계정 목록은 아래 "5분 실행"에 있습니다.
 
 1. **구매요청에서 입고까지(결재·권한·감사).** 구매직원으로 요청을 올리면 결재선이 조직도에서 만들어지고(금액 구간·전결 규정·예산 초과 시 재무 단계 추가), 팀장 → 부서장 → 재무 순서로 승인하면 발주가 생기고 재무가 입고를 처리합니다. 자기 결재는 막히고, 감사 담당 계정의 "감사 로그"에서 "변조 여부 검증"으로 해시 체인을 확인합니다.
-2. **변경 피드와 웹훅(이벤트 기반 연동).** 관리자가 연동 토큰을 발급하고 `GET /api/v1/changes` 로 커서를 따라 읽습니다. 웹훅 구독을 등록하면 변경이 생길 때 서명된 알림이 가고(재시도·비밀 교체·분당 한도), 값은 API 로 다시 읽습니다. 절차는 [docs/integrations.md](docs/integrations.md).
+2. **변경 피드와 웹훅(이벤트 기반 연동).** 관리자가 연동 토큰을 발급하고 `GET /api/v1/changes` 로 커서를 따라 읽습니다. 웹훅 구독을 등록하면 변경이 생길 때 서명된 알림이 가고(재시도·비밀 교체·분당 한도), 값은 API 로 다시 읽습니다. 절차는 [docs/integrations.md](docs/integrations.md). 받는 쪽 예제(NestJS: 서명 검증·중복 제거·피드 재조회)는 [examples/webhook-consumer-nest](examples/webhook-consumer-nest/README.md).
 3. **AI 연결(MCP·게이트웨이·평가).** 개인 토큰으로 AI 도구를 `/mcp` 에 붙이면 호출자의 권한으로만 도구가 돌고 호출마다 감사에 남습니다. 요청 전 개인정보 마스킹, 모델 허용 목록·일일 한도, 공급자 장애 대체는 게이트웨이가 맡고, `go run ./cmd/eval --provider mock` 이 골든셋 합격률을 잽니다. [docs/mcp-connect.md](docs/mcp-connect.md)
 
 ## 화면
@@ -28,11 +28,11 @@
 
 ## 테스트
 
-Go 테스트 함수 약 1,860개와 프론트(vitest) 730개, 그리고 서버를 실제로 띄워 도는 e2e 스모크(`scripts/e2e.sh`)가 있습니다. 대표 시나리오와 영역별 개수는 [docs/TEST_CASES.md](docs/TEST_CASES.md) 에 정리했습니다.
+Go 테스트 함수 약 1,860개와 프론트(vitest) 730개, 그리고 서버를 실제로 띄워 도는 e2e 스모크(`scripts/e2e.sh`)가 있습니다. 대표 시나리오와 영역별 개수는 [docs/TEST_CASES.md](docs/TEST_CASES.md) 에 정리했습니다. 예제 수신기(`examples/webhook-consumer-nest`)에는 Jest 시험 59개(단위 43, e2e 16)가 따로 있습니다.
 
 ```
 make test      # Go 테스트
-make verify    # go vet·go test·gofmt, 권한 선언 검사, 프론트 타입·테스트·빌드, 평가 러너, e2e
+make verify    # go vet·go test·gofmt, 권한 선언 검사, 프론트 타입·테스트·빌드, 평가 러너, e2e, 예제 수신기 시험
 ```
 
 ## 5분 실행
@@ -92,13 +92,15 @@ PL_DEV_IDP=1 ./bin/server
 
 | 명령 | 하는 일 |
 |---|---|
-| `make verify` | 완료 판정. go vet·go test, 권한 선언 누락 검사, 프론트 타입·테스트·빌드, 평가 러너(mock), e2e 스모크, 커밋 메시지 검사를 돈다. |
+| `make verify` | 완료 판정. go vet·go test, 권한 선언 누락 검사, 프론트 타입·테스트·빌드, 평가 러너(mock), e2e 스모크, 예제 수신기 시험, 커밋 메시지 검사를 돈다. |
 | `make verify-ui` | 헤드리스 브라우저로 화면을 돌고 스크린샷을 `ui-screenshots/` 에 남긴다(선택). |
 | `make verify-pg` | 로컬에 설치된 PostgreSQL 의 임시 클러스터(유닉스 소켓, 기존 PG 서버는 건드리지 않음)로 PG 용 시험을 돈다. PG 가 없으면 "건너뜀"을 표시한다(선택). |
 | `make verify-docker` | Docker 가 있는 머신에서 이미지 빌드·기동·헬스체크를 확인한다(선택). |
 | `make build` | 프론트를 빌드하고 `bin/` 에 `server`, `erp-mcp`, `eval` 을 만든다. |
 | `make test` | `go test ./...` 만 돈다. |
 | `make openapi` | 연동 API(`/api/v1`)의 OpenAPI 문서 `docs/openapi/v1.json` 을 라우트 선언표에서 다시 생성한다. 라우트·응답 형을 바꾼 뒤에 돌린다. |
+| `make test-examples` | 예제 수신기(`examples/webhook-consumer-nest`)의 타입 검사와 Jest 단위·e2e 시험을 돈다(`make verify` 의 6단계와 같다). |
+| `make webhook-nest-live` | 실제 서버(개발 모드)가 보내는 서명 알림을 예제 수신기가 받는지 확인한다(선택, `make build` 필요). |
 | `make connector-demo` | 커넥터 예시(`examples/connector`)를 시험용으로 조립한 서버 위에서 돌린다: 거래처·전표 초안을 들이고 거래처를 CSV 로 내보낸다. 설명은 [연동 가이드](docs/integrations.md). |
 | `make openapi-check` | 저장소의 OpenAPI 문서가 라우트 선언표에서 생성한 결과와 같은지, 라우트·문서·오류 코드가 어긋나지 않는지 본다(`make verify` 의 `go test` 에도 들어 있다). |
 | `make clean` | 빌드 산출물을 지운다. |
